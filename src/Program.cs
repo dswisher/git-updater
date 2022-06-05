@@ -1,9 +1,12 @@
-﻿using System;
+﻿// Copyright (c) Doug Swisher. All Rights Reserved.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
+using System;
 using GitUpdater.Commands;
 using GitUpdater.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
-using Spectre.Console.Cli;
 using Spectre.Console;
+using Spectre.Console.Cli;
 
 namespace GitUpdater
 {

@@ -1,3 +1,6 @@
+// Copyright (c) Doug Swisher. All Rights Reserved.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 using System.Linq;
 using GitUpdater.Helpers;
 using GitUpdater.Settings;
@@ -45,11 +48,11 @@ namespace GitUpdater.Commands
 
                     if (problems.Any())
                     {
-                        ansiConsole.MarkupLine($"{repoDir}:");
+                        ansiConsole.MarkupLine($":cross_mark: {repoDir}:");
 
                         foreach (var issue in problems)
                         {
-                            ansiConsole.MarkupLine($"   :cross_mark: {issue}");
+                            ansiConsole.MarkupLine($"   - {issue}");
                         }
                     }
                 }
