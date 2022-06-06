@@ -2,11 +2,12 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System.Collections.Generic;
+using GitUpdater.Models;
 
 namespace GitUpdater.Helpers
 {
     public interface IRepoFinder
     {
-        List<string> FindRepos(string startDir);
+        List<RepoDirInfo> FindRepos(string startDir);
     }
 }

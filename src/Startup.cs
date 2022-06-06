@@ -1,6 +1,7 @@
 // Copyright (c) Doug Swisher. All Rights Reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using System.IO.Abstractions;
 using GitUpdater.Commands;
 using GitUpdater.Helpers;
 using GitUpdater.Wrapper;
@@ -12,6 +13,7 @@ namespace GitUpdater
     {
         public static void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IFileSystem, FileSystem>();
             services.AddSingleton<IGitChecker, GitChecker>();
             services.AddSingleton<IRepoFinder, RepoFinder>();
 

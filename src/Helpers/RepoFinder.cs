@@ -3,28 +3,37 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
+using GitUpdater.Models;
 
 namespace GitUpdater.Helpers
 {
     public class RepoFinder : IRepoFinder
     {
-        public List<string> FindRepos(string startDir)
+        private readonly IFileSystem fileSystem;
+
+        public RepoFinder(IFileSystem fileSystem)
+        {
+            this.fileSystem = fileSystem;
+        }
+
+
+        public List<RepoDirInfo> FindRepos(string startDir)
         {
             // TODO - this should return both the full path and the relative path to startDir
-            // TODO - if no repos found, walk upward, to handle the case where we're in a git repo subdir
+            // TODO - if no repos found, walk upward, to handle the case where we're in a git repo sub-dir
 
-            var pending = new Queue<DirectoryInfo>();
-            var result = new List<string>();
+            var pending = new Queue<IDirectoryInfo>();
+            var result = new List<RepoDirInfo>();
 
             if (string.IsNullOrEmpty(startDir))
             {
-                pending.Enqueue(new DirectoryInfo(Environment.CurrentDirectory));
+                pending.Enqueue(fileSystem.DirectoryInfo.FromDirectoryName(Environment.CurrentDirectory));
             }
             else
             {
-                pending.Enqueue(new DirectoryInfo(startDir));
+                pending.Enqueue(fileSystem.DirectoryInfo.FromDirectoryName(startDir));
             }
 
             while (pending.Count > 0)
@@ -34,7 +43,13 @@ namespace GitUpdater.Helpers
                 // If the directory contains a .git directory, it is a repo
                 if (dir.GetDirectories(".git").Any())
                 {
-                    result.Add(dir.FullName);
+                    var info = new RepoDirInfo
+                    {
+                        // TODO - xyzzy - compute the relative path
+                        FullPath = dir.FullName
+                    };
+
+                    result.Add(info);
                 }
                 else
                 {

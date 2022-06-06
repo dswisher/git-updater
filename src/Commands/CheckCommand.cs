@@ -40,15 +40,15 @@ namespace GitUpdater.Commands
 
             // TODO - if more than two repos were found, set up status bars
 
-            foreach (var repoDir in repoDirList)
+            foreach (var dirInfo in repoDirList)
             {
-                using (var repo = new Repository(repoDir))
+                using (var repo = new Repository(dirInfo.FullPath))
                 {
                     var problems = gitChecker.CheckRepo(repo);
 
                     if (problems.Any())
                     {
-                        ansiConsole.MarkupLine($":cross_mark: {repoDir}:");
+                        ansiConsole.MarkupLine($":cross_mark: {dirInfo}:");
 
                         foreach (var issue in problems)
                         {
