@@ -6,10 +6,10 @@ using Spectre.Console.Cli;
 
 namespace GitUpdater.Settings
 {
-    public class CheckSettings : CommandSettings
+    public class FetchSettings : AbstractGitCommandSettings
     {
-        [Description("The directory where the search for git repos begins.")]
-        [CommandArgument(0, "[DIRECTORY]")]
-        public string Directory { get; set; }
+        [Description("Show what would be done, without making any changes.")]
+        [CommandOption("--dry-run")]
+        public bool? DryRun { get; set; }
     }
 }

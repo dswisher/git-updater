@@ -4,6 +4,7 @@
 using System.IO.Abstractions;
 using GitUpdater.Commands;
 using GitUpdater.Helpers;
+using GitUpdater.Parsers;
 using GitUpdater.Wrapper;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,11 +14,14 @@ namespace GitUpdater
     {
         public static void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IFetchOutputParser, FetchOutputParser>();
             services.AddSingleton<IFileSystem, FileSystem>();
             services.AddSingleton<IGitChecker, GitChecker>();
+            services.AddSingleton<IGitFetcher, GitFetcher>();
             services.AddSingleton<IRepoFinder, RepoFinder>();
 
-            services.AddSingleton<CheckCommand>();
+            services.AddSingleton<FetchCommand>();
+            services.AddSingleton<StatusCommand>();
         }
     }
 }

@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
+using System.Threading.Tasks;
 using GitUpdater.Commands;
 using GitUpdater.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,8 +13,10 @@ namespace GitUpdater
 {
     public static class Program
     {
-        public static int Main(string[] args)
+        public static async Task<int> Main(string[] args)
         {
+            // TODO - need a CancellationToken
+
             try
             {
                 var services = new ServiceCollection();
@@ -24,11 +27,14 @@ namespace GitUpdater
                 var app = new CommandApp(registrar);
                 app.Configure(config =>
                 {
-                    config.AddCommand<CheckCommand>("check")
-                        .WithDescription("Check each git repository for issues and report them.");
+                    config.AddCommand<StatusCommand>("status")
+                        .WithDescription("Check the status of each git repository.");
+
+                    config.AddCommand<FetchCommand>("fetch")
+                        .WithDescription("Fetch commits from origin.");
                 });
 
-                return app.Run(args);
+                return await app.RunAsync(args);
             }
             catch (Exception ex)
             {

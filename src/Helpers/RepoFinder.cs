@@ -24,29 +24,28 @@ namespace GitUpdater.Helpers
             // TODO - this should return both the full path and the relative path to startDir
             // TODO - if no repos found, walk upward, to handle the case where we're in a git repo sub-dir
 
-            var pending = new Queue<IDirectoryInfo>();
+            var pending = new Queue<QueueEntry>();
             var result = new List<RepoDirInfo>();
 
-            if (string.IsNullOrEmpty(startDir))
+            var startInfo = fileSystem.DirectoryInfo.FromDirectoryName(string.IsNullOrEmpty(startDir) ? Environment.CurrentDirectory : startDir);
+
+            pending.Enqueue(new QueueEntry
             {
-                pending.Enqueue(fileSystem.DirectoryInfo.FromDirectoryName(Environment.CurrentDirectory));
-            }
-            else
-            {
-                pending.Enqueue(fileSystem.DirectoryInfo.FromDirectoryName(startDir));
-            }
+                Directory = startInfo,
+                RelativePath = startInfo.Name
+            });
 
             while (pending.Count > 0)
             {
                 var dir = pending.Dequeue();
 
                 // If the directory contains a .git directory, it is a repo
-                if (dir.GetDirectories(".git").Any())
+                if (dir.Directory.GetDirectories(".git").Any())
                 {
                     var info = new RepoDirInfo
                     {
-                        // TODO - xyzzy - compute the relative path
-                        FullPath = dir.FullName
+                        FullPath = dir.Directory.FullName,
+                        RelativePath = dir.RelativePath
                     };
 
                     result.Add(info);
@@ -54,14 +53,25 @@ namespace GitUpdater.Helpers
                 else
                 {
                     // Not a git repo, scan subdirectories
-                    foreach (var child in dir.GetDirectories())
+                    foreach (var child in dir.Directory.GetDirectories())
                     {
-                        pending.Enqueue(child);
+                        pending.Enqueue(new QueueEntry
+                        {
+                            Directory = child,
+                            RelativePath = fileSystem.Path.Join(dir.RelativePath, child.Name)
+                        });
                     }
                 }
             }
 
             return result;
+        }
+
+
+        private class QueueEntry
+        {
+            public IDirectoryInfo Directory { get; init; }
+            public string RelativePath { get; init; }
         }
     }
 }

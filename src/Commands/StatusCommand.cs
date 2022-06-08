@@ -11,13 +11,13 @@ using Spectre.Console.Cli;
 
 namespace GitUpdater.Commands
 {
-    public class CheckCommand : Command<CheckSettings>
+    public class StatusCommand : Command<StatusSettings>
     {
         private readonly IRepoFinder repoFinder;
         private readonly IGitChecker gitChecker;
         private readonly IAnsiConsole ansiConsole;
 
-        public CheckCommand(
+        public StatusCommand(
             IRepoFinder repoFinder,
             IGitChecker gitChecker,
             IAnsiConsole ansiConsole)
@@ -28,7 +28,7 @@ namespace GitUpdater.Commands
         }
 
 
-        public override int Execute(CommandContext context, CheckSettings settings)
+        public override int Execute(CommandContext context, StatusSettings settings)
         {
             var repoDirList = repoFinder.FindRepos(settings.Directory);
 
@@ -48,7 +48,7 @@ namespace GitUpdater.Commands
 
                     if (problems.Any())
                     {
-                        ansiConsole.MarkupLine($":cross_mark: {dirInfo}:");
+                        ansiConsole.MarkupLine($":cross_mark: {dirInfo.RelativePath}:");
 
                         foreach (var issue in problems)
                         {

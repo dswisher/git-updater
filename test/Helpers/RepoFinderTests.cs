@@ -8,6 +8,7 @@ namespace GitUpdater.Tests.Helpers
 {
     public class RepoFinderTests
     {
+        private const string Proj1 = "my-proj";
         private const string Child1 = "sub1";
         private const string Child2 = "sub2";
 
@@ -19,7 +20,7 @@ namespace GitUpdater.Tests.Helpers
 
         public RepoFinderTests()
         {
-            currentDir = Path.Join(Path.DirectorySeparatorChar + "users", "swish");
+            currentDir = Path.Join(Path.DirectorySeparatorChar + "users", "fred", Proj1);
 
             fs = new MockFileSystem(null, currentDir);
 
@@ -40,8 +41,7 @@ namespace GitUpdater.Tests.Helpers
             repos.Should().HaveCount(1);
 
             repos[0].FullPath.Should().Be(currentDir);
-
-            // TODO - xyzzy - check relative paths
+            repos[0].RelativePath.Should().Be(Proj1);
         }
 
 

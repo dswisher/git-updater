@@ -28,7 +28,8 @@ namespace GitUpdater.Tests
 
 
         [Theory]
-        [InlineData(typeof(CheckCommand))]
+        [InlineData(typeof(FetchCommand))]
+        [InlineData(typeof(StatusCommand))]
         public void CanResolveCommands(Type type)
         {
             // Arrange
