@@ -75,8 +75,7 @@ namespace GitUpdater.Wrapper
 
             if (total > 0)
             {
-                // TODO - properly pluralize
-                problems.Add($"has {total} uncommitted files.");
+                problems.Add($"has {"uncommitted file".ToQuantity(total)}.");
             }
         }
     }
