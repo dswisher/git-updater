@@ -27,6 +27,8 @@ namespace GitUpdater
                 var app = new CommandApp(registrar);
                 app.Configure(config =>
                 {
+                    config.UseStrictParsing();
+
                     config.AddCommand<StatusCommand>("status")
                         .WithDescription("Check the status of each git repository.");
 
