@@ -21,7 +21,6 @@ namespace GitUpdater.Helpers
 
         public List<RepoDirInfo> FindRepos(string startDir)
         {
-            // TODO - this should return both the full path and the relative path to startDir
             // TODO - if no repos found, walk upward, to handle the case where we're in a git repo sub-dir
 
             var pending = new Queue<QueueEntry>();

@@ -37,7 +37,7 @@ namespace GitUpdater.Commands
 
             // TODO - use progress
 
-            foreach (var dirInfo in repoDirList)
+            foreach (var dirInfo in repoDirList.OrderBy(x => x.RelativePath))
             {
                 ansiConsole.MarkupLine($"Fetching {dirInfo.RelativePath}...");
                 await fetcher.FetchAsync(dirInfo.FullPath, settings.DryRun.GetValueOrDefault());

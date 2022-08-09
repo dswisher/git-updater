@@ -32,8 +32,6 @@ namespace GitUpdater.Tests
         [InlineData(typeof(StatusCommand))]
         public void CanResolveCommands(Type type)
         {
-            // Arrange
-
             // Act
             var command = container.GetRequiredService(type);
 
