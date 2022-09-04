@@ -2,28 +2,35 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using GitExecWrapper.Commands;
+using GitExecWrapper.Helpers;
+using GitExecWrapper.Models;
 using Humanizer;
-using LibGit2Sharp;
 
 namespace GitUpdater.Wrapper
 {
     public class GitChecker : IGitChecker
     {
-        public List<string> CheckRepo(IRepository repo)
+        public async Task<List<string>> CheckRepoAsync(string repoPath, CancellationToken cancellationToken)
         {
             // Keep a list of problems that have been found
             var problems = new List<string>();
 
+            // Get the status for this repo
+            var status = await new StatusCommand(repoPath).ExecAsync(cancellationToken);
+
             // Look for files that have not been committed
-            CheckFiles(problems, repo);
+            CheckFiles(problems, status);
 
             // Check the branch
-            // TODO - branch check
+            // Get the default upstream branch for the current remote, and verify we are on it.
+            // See https://github.com/dswisher/git-exec-wrapper/issues/5 and https://github.com/dswisher/git-exec-wrapper/issues/4
 
             // Check for un-pushed commits and un-merged commits
-            var ahead = repo.Head.TrackingDetails.AheadBy.GetValueOrDefault();
-            var behind = repo.Head.TrackingDetails.BehindBy.GetValueOrDefault();
+            var ahead = status.CommitsAhead.GetValueOrDefault();
+            var behind = status.CommitsBehind.GetValueOrDefault();
 
             if (ahead > 0)
             {
@@ -46,36 +53,23 @@ namespace GitUpdater.Wrapper
         }
 
 
-        private void CheckFiles(List<string> problems, IRepository repo)
+        private void CheckFiles(List<string> problems, StatusResult status)
         {
-            // Keep track of counts by file state
-            var stateCounts = new Dictionary<FileStatus, int>();
+            // Go through all the items, looking for things that need to be committed
+            var needsCommit = 0;
 
-            // Go through all the files (git status) and tally up counts by state
-            var options = new StatusOptions
+            foreach (var item in status.Items)
             {
-                IncludeIgnored = false,
-                RecurseIgnoredDirs = false
-            };
-
-            foreach (var item in repo.RetrieveStatus(options))
-            {
-                if (stateCounts.ContainsKey(item.State))
+                // TODO - move this logic into git-exec-wrapper and expose in a "NeedsCommit" count property, or perhaps an "IsDirty" boolean
+                if (item.IndexStatus != FileStatus.Unchanged || item.WorkDirStatus != FileStatus.Unchanged)
                 {
-                    stateCounts[item.State] += 1;
-                }
-                else
-                {
-                    stateCounts.Add(item.State, 1);
+                    needsCommit += 1;
                 }
             }
 
-            // Add problem reports, based on the state
-            var total = stateCounts.Values.Sum();
-
-            if (total > 0)
+            if (needsCommit > 0)
             {
-                problems.Add($"has {"uncommitted file".ToQuantity(total)}.");
+                problems.Add($"has {"uncommitted file".ToQuantity(needsCommit)}.");
             }
         }
     }

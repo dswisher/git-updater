@@ -2,12 +2,13 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System.Collections.Generic;
-using LibGit2Sharp;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GitUpdater.Wrapper
 {
     public interface IGitChecker
     {
-        List<string> CheckRepo(IRepository repo);
+        Task<List<string>> CheckRepoAsync(string repoPath, CancellationToken cancellationToken);
     }
 }
