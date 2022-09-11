@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using GitUpdater.Helpers;
 using GitUpdater.Settings;
@@ -40,7 +41,11 @@ namespace GitUpdater.Commands
             foreach (var dirInfo in repoDirList.OrderBy(x => x.RelativePath))
             {
                 ansiConsole.MarkupLine($"Fetching {dirInfo.RelativePath}...");
-                await fetcher.FetchAsync(dirInfo.FullPath, settings.DryRun.GetValueOrDefault());
+
+                // TODO - do a proper async call!
+                var result = await fetcher.FetchAsync(dirInfo.FullPath, settings.DryRun.GetValueOrDefault(), CancellationToken.None);
+
+                // TODO - cope with the results
             }
 
             return 0;

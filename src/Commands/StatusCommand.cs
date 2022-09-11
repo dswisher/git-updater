@@ -1,6 +1,7 @@
 // Copyright (c) Doug Swisher. All Rights Reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using System;
 using System.Linq;
 using System.Threading;
 using GitUpdater.Helpers;
@@ -40,17 +41,25 @@ namespace GitUpdater.Commands
 
             foreach (var dirInfo in repoDirList)
             {
-                // TODO - do a proper async call!
-                var problems = gitChecker.CheckRepoAsync(dirInfo.FullPath, CancellationToken.None).GetAwaiter().GetResult();
-
-                if (problems.Any())
+                try
                 {
-                    ansiConsole.MarkupLine($":cross_mark: {dirInfo.RelativePath}:");
+                    // TODO - do a proper async call!
+                    var problems = gitChecker.CheckRepoAsync(dirInfo.FullPath, CancellationToken.None).GetAwaiter().GetResult();
 
-                    foreach (var issue in problems)
+                    if (problems.Any())
                     {
-                        ansiConsole.MarkupLine($"   - {issue}");
+                        ansiConsole.MarkupLine($":cross_mark: {dirInfo.RelativePath}:");
+
+                        foreach (var issue in problems)
+                        {
+                            ansiConsole.MarkupLine($"   - {issue}");
+                        }
                     }
+                }
+                catch
+                {
+                    AnsiConsole.WriteLine("Error checking repo {0}", dirInfo.RelativePath);
+                    throw;
                 }
             }
 

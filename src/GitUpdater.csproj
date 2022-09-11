@@ -14,7 +14,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="GitExecWrapper" Version="0.1.0-alpha0012" />
+        <PackageReference Include="GitExecWrapper" Version="0.1.0-alpha0017" />
         <PackageReference Include="Humanizer.Core" Version="2.14.1" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
         <PackageReference Include="Roslyn.System.IO.Abstractions.Analyzers" Version="12.2.19">
@@ -34,4 +34,8 @@
     <ItemGroup>
         <AdditionalFiles Include="stylecop.json" />
     </ItemGroup>
+
+    <!-- <ItemGroup> -->
+    <!--     <ProjectReference Include="../../git-exec-wrapper/src/GitExecWrapper.csproj" /> -->
+    <!-- </ItemGroup> -->
 </Project>

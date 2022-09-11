@@ -25,8 +25,10 @@ namespace GitUpdater.Wrapper
             CheckFiles(problems, status);
 
             // Check the branch
-            // Get the default upstream branch for the current remote, and verify we are on it.
-            // See https://github.com/dswisher/git-exec-wrapper/issues/5 and https://github.com/dswisher/git-exec-wrapper/issues/4
+            // TODO - Get the default upstream branch for the current remote, and verify we are on it.
+            // See https://github.com/dswisher/git-updater/issues/7
+            var remotes = await new RemoteCommand(repoPath).ExecAsync(cancellationToken);
+            var branches = await new BranchCommand(repoPath).ExecAsync(cancellationToken);
 
             // Check for un-pushed commits and un-merged commits
             var ahead = status.CommitsAhead.GetValueOrDefault();
