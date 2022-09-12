@@ -3,6 +3,7 @@
 
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using GitUpdater.Helpers;
 using GitUpdater.Settings;
 using GitUpdater.Wrapper;
@@ -11,7 +12,7 @@ using Spectre.Console.Cli;
 
 namespace GitUpdater.Commands
 {
-    public class StatusCommand : Command<StatusSettings>
+    public class StatusCommand : AsyncCommand<StatusSettings>
     {
         private readonly IRepoFinder repoFinder;
         private readonly IGitChecker gitChecker;
@@ -28,7 +29,7 @@ namespace GitUpdater.Commands
         }
 
 
-        public override int Execute(CommandContext context, StatusSettings settings)
+        public override async Task<int> ExecuteAsync(CommandContext context, StatusSettings settings)
         {
             var repoDirList = repoFinder.FindRepos(settings.Directory);
 
@@ -42,8 +43,8 @@ namespace GitUpdater.Commands
             {
                 try
                 {
-                    // TODO - do a proper async call!
-                    var problems = gitChecker.CheckRepoAsync(dirInfo.FullPath, CancellationToken.None).GetAwaiter().GetResult();
+                    // TODO - need a CancellationToken
+                    var problems = await gitChecker.CheckRepoAsync(dirInfo.FullPath, CancellationToken.None);
 
                     if (problems.Any())
                     {

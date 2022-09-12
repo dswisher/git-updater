@@ -44,7 +44,7 @@ namespace GitUpdater.Commands
             {
                 ansiConsole.MarkupLine($"Fetching {dirInfo.RelativePath}...");
 
-                // TODO - do a proper async call!
+                // TODO - need a CancellationToken
                 var result = await fetcher.FetchAsync(dirInfo.FullPath, settings.DryRun.GetValueOrDefault(), CancellationToken.None);
 
                 var updatedBranches = result.Items.Count(x => x.Status == RefStatus.Fetched);

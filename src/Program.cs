@@ -29,11 +29,14 @@ namespace GitUpdater
                 {
                     config.UseStrictParsing();
 
-                    config.AddCommand<StatusCommand>("status")
-                        .WithDescription("Check the status of each git repository.");
-
                     config.AddCommand<FetchCommand>("fetch")
                         .WithDescription("Fetch commits from origin.");
+
+                    config.AddCommand<RebaseCommand>("rebase")
+                        .WithDescription("Bring each repo up to date by merging upstream changes via a rebase, if it would not conflict.");
+
+                    config.AddCommand<StatusCommand>("status")
+                        .WithDescription("Check the status of each git repository.");
                 });
 
                 return await app.RunAsync(args);
