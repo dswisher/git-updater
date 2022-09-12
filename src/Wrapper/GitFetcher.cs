@@ -13,7 +13,9 @@ namespace GitUpdater.Wrapper
     {
         public async Task<FetchResult> FetchAsync(string repoPath, bool dryRun, CancellationToken cancellationToken)
         {
-            var command = new FetchCommand(repoPath);
+            var command = new FetchCommand(repoPath)
+                .DryRun(dryRun);
+
             var result = await command.ExecAsync(cancellationToken);
 
             return result;

@@ -4,9 +4,11 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using GitExecWrapper.Models;
 using GitUpdater.Helpers;
 using GitUpdater.Settings;
 using GitUpdater.Wrapper;
+using Humanizer;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
@@ -45,7 +47,24 @@ namespace GitUpdater.Commands
                 // TODO - do a proper async call!
                 var result = await fetcher.FetchAsync(dirInfo.FullPath, settings.DryRun.GetValueOrDefault(), CancellationToken.None);
 
-                // TODO - cope with the results
+                var updatedBranches = result.Items.Count(x => x.Status == RefStatus.Fetched);
+                var newBranches = result.Items.Count(x => x.Status == RefStatus.NewRef);
+
+                if (updatedBranches > 0)
+                {
+                    if (newBranches > 0)
+                    {
+                        AnsiConsole.WriteLine($"   -> Received updates for {"existing branch".ToQuantity(updatedBranches)} and {"new branch".ToQuantity(newBranches)}.");
+                    }
+                    else
+                    {
+                        AnsiConsole.WriteLine($"   -> Received updates for {"existing branch".ToQuantity(updatedBranches)}.");
+                    }
+                }
+                else if (newBranches > 0)
+                {
+                    AnsiConsole.WriteLine($"   -> Received {"new branch".ToQuantity(newBranches)}.");
+                }
             }
 
             return 0;
