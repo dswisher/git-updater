@@ -10,6 +10,18 @@ The currently supported actions are:
 Support is planned for a "merge" command, for repos that can be fast-forwarded.
 
 
+# Installation
+
+Clone the repo.
+In the `src/GitUpdater` directory, do either:
+
+    make install
+
+or, if already installed:
+
+    make update
+
+
 ## Libraries Used
 
 * [Spectre.Console](https://github.com/spectreconsole/spectre.console)

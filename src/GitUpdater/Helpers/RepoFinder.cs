@@ -26,7 +26,7 @@ namespace GitUpdater.Helpers
             var pending = new Queue<QueueEntry>();
             var result = new List<RepoDirInfo>();
 
-            var startInfo = fileSystem.DirectoryInfo.FromDirectoryName(string.IsNullOrEmpty(startDir) ? Environment.CurrentDirectory : startDir);
+            var startInfo = fileSystem.DirectoryInfo.New(string.IsNullOrEmpty(startDir) ? Environment.CurrentDirectory : startDir);
 
             pending.Enqueue(new QueueEntry
             {
