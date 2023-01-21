@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\GitUpdater.csproj" />
+    <ProjectReference Include="..\..\src\GitUpdater\GitUpdater.csproj" />
   </ItemGroup>
 
 </Project>

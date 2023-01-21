@@ -32,11 +32,12 @@ namespace GitUpdater
                     config.AddCommand<FetchCommand>("fetch")
                         .WithDescription("Fetch commits from origin.");
 
+                    // TODO - rename to merge?
                     config.AddCommand<RebaseCommand>("rebase")
                         .WithDescription("Bring each repo up to date by merging upstream changes via a rebase, if it would not conflict.");
 
                     config.AddCommand<StatusCommand>("status")
-                        .WithDescription("Check the status of each git repository.");
+                        .WithDescription("Check the status of each local git repository.");
                 });
 
                 return await app.RunAsync(args);

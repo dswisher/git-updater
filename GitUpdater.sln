@@ -3,9 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitUpdater", "src\GitUpdater.csproj", "{DF0422F6-E1B8-4A6B-829E-69DB706C3675}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BF1F1D4F-3270-41D8-87B0-9ED3937B1FDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitUpdater.Tests", "test\GitUpdater.Tests.csproj", "{60B72D39-1E6B-47CB-83CC-D71CC0F9D7D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitUpdater", "src\GitUpdater\GitUpdater.csproj", "{2DD9A5E5-280B-4C63-A107-0FF7488BE569}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitExecWrapper", "src\GitExecWrapper\GitExecWrapper.csproj", "{05A8C83F-B330-40DF-990C-3DC072B2C518}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{6C52CF6C-BA5B-48BF-AA81-063B80F51DF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitUpdater.Tests", "test\GitUpdater.Tests\GitUpdater.Tests.csproj", "{D8BDF77A-B423-46EE-8CEF-F997EEAA83C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitExecWrapper.Tests", "test\GitExecWrapper.Tests\GitExecWrapper.Tests.csproj", "{C4350C95-6B26-4A58-953E-FB91F9FD0C8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,13 +24,27 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DF0422F6-E1B8-4A6B-829E-69DB706C3675}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF0422F6-E1B8-4A6B-829E-69DB706C3675}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF0422F6-E1B8-4A6B-829E-69DB706C3675}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF0422F6-E1B8-4A6B-829E-69DB706C3675}.Release|Any CPU.Build.0 = Release|Any CPU
-		{60B72D39-1E6B-47CB-83CC-D71CC0F9D7D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{60B72D39-1E6B-47CB-83CC-D71CC0F9D7D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{60B72D39-1E6B-47CB-83CC-D71CC0F9D7D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{60B72D39-1E6B-47CB-83CC-D71CC0F9D7D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DD9A5E5-280B-4C63-A107-0FF7488BE569}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DD9A5E5-280B-4C63-A107-0FF7488BE569}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DD9A5E5-280B-4C63-A107-0FF7488BE569}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DD9A5E5-280B-4C63-A107-0FF7488BE569}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05A8C83F-B330-40DF-990C-3DC072B2C518}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05A8C83F-B330-40DF-990C-3DC072B2C518}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05A8C83F-B330-40DF-990C-3DC072B2C518}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05A8C83F-B330-40DF-990C-3DC072B2C518}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8BDF77A-B423-46EE-8CEF-F997EEAA83C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8BDF77A-B423-46EE-8CEF-F997EEAA83C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8BDF77A-B423-46EE-8CEF-F997EEAA83C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8BDF77A-B423-46EE-8CEF-F997EEAA83C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4350C95-6B26-4A58-953E-FB91F9FD0C8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4350C95-6B26-4A58-953E-FB91F9FD0C8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4350C95-6B26-4A58-953E-FB91F9FD0C8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4350C95-6B26-4A58-953E-FB91F9FD0C8D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2DD9A5E5-280B-4C63-A107-0FF7488BE569} = {BF1F1D4F-3270-41D8-87B0-9ED3937B1FDE}
+		{05A8C83F-B330-40DF-990C-3DC072B2C518} = {BF1F1D4F-3270-41D8-87B0-9ED3937B1FDE}
+		{D8BDF77A-B423-46EE-8CEF-F997EEAA83C6} = {6C52CF6C-BA5B-48BF-AA81-063B80F51DF2}
+		{C4350C95-6B26-4A58-953E-FB91F9FD0C8D} = {6C52CF6C-BA5B-48BF-AA81-063B80F51DF2}
 	EndGlobalSection
 EndGlobal

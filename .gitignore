@@ -5,5 +5,5 @@
 bin
 obj
 
-src/nupkg
+src/GitUpdater/nupkg
 

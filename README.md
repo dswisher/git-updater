@@ -1,5 +1,15 @@
 # gup - multi-directory git status/fetch/rebase
 
+This tool is intended to help manage projects that have a large number of related git repositories.
+It will scan a directory hierarchy of git repos, and perform actions on each.
+The currently supported actions are:
+
+* git fetch
+* status - an "improved" git status
+
+Support is planned for a "merge" command, for repos that can be fast-forwarded.
+
+
 ## Libraries Used
 
 * [Spectre.Console](https://github.com/spectreconsole/spectre.console)
@@ -26,4 +36,3 @@ The git documentation has been helpful, as it provides details on the output fro
 * [Gita](https://github.com/nosarthur/gita)
 * [gr](https://github.com/mixu/gr)
 * [go-many-git](https://github.com/abrochard/go-many-git)
-
