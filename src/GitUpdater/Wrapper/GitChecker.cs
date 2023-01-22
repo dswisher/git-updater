@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GitExecWrapper.Commands;
@@ -24,11 +25,22 @@ namespace GitUpdater.Wrapper
             // Look for files that have not been committed
             CheckFiles(problems, status);
 
-            // Check the branch
-            // TODO - Get the default upstream branch for the current remote, and verify we are on it.
-            // See https://github.com/dswisher/git-updater/issues/7
+            // Get the default upstream branch for the current remote, and verify we are on it.
             var remotes = await new RemoteCommand(repoPath).ExecAsync(cancellationToken);
             var branches = await new BranchCommand(repoPath).ExecAsync(cancellationToken);
+
+            // TODO - what to do if there are multiple remotes?
+            if (remotes.Items.Any())
+            {
+                var desiredBranch = remotes.Items.First().HeadBranch;
+
+                var currentBranch = branches.Items.FirstOrDefault(x => x.IsCurrent);
+
+                if (currentBranch != null && currentBranch.BranchName != desiredBranch)
+                {
+                    problems.Add($"is using branch {currentBranch.BranchName}, not the expected {desiredBranch}.");
+                }
+            }
 
             // Check for un-pushed commits and un-merged commits
             var ahead = status.CommitsAhead.GetValueOrDefault();
